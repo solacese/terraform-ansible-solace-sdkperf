@@ -1,0 +1,10 @@
+#####################################################
+# Variable for identifying the Cloud Provider
+#####################################################
+cloud_provider: aws-ha
+
+#####################################################
+# config variables for the Ansible Rol - solace/solace-exstorage-bootstrap
+#####################################################
+solace_mount_path: /var/opt/vmr
+

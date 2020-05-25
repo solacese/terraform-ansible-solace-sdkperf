@@ -1,0 +1,21 @@
+---
+# defaults file for create-queue
+cloud_provider: default
+semp_mngmt_host: "{{ inventory_hostname }}"
+semp_admin_user: admin
+semp_admin_password: admin
+vpn:
+  vpn_name: "default"
+q:
+- queueName: "TestQueue"
+  accessType: "non-exclusive"
+  consumerAckPropagationEnabled: "true" 
+  egressEnabled: true
+  ingressEnabled: true
+  maxBindCount: 1000
+  maxMsgSize: 10000000
+  maxMsgSpoolUsage: 50000
+  permission: "delete"
+  rejectMsgToSenderOnDiscardBehavior: "never"  
+  subscription_topics:
+  - ">"

@@ -1,0 +1,18 @@
+---
+# tasks file for os-bootstrap
+#- name: upgrade all packages
+#  yum: 
+#    name: "*" 
+#    state: latest
+- name: install epel-release
+  yum:
+    name: "epel-release"
+    update_cache: true
+- name: install htop
+  yum:
+    name: "htop"
+    update_cache: true
+- name: install sysstat
+  yum:
+    name: "sysstat"
+    update_cache: true

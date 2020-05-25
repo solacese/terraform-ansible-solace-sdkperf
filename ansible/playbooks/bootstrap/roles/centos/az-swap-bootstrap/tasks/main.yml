@@ -1,0 +1,28 @@
+---
+# tasks file for az-swap-bootstrap
+- name: set up swap
+  vars:
+    waagent:
+      ResourceDisk.Format: y                      # Format if unformatted
+      ResourceDisk.Filesystem: ext4               # Typically ext3 or ext4
+      ResourceDisk.MountPoint: /mnt/resource      #
+      ResourceDisk.EnableSwap: y                  # Create and use swapfile
+      ResourceDisk.SwapSizeMB: "{{ swap_file_size }}" # Size of the swapfile
+  lineinfile: dest=/etc/waagent.conf line="{{ item.key }}={{ item.value }}"
+  with_dict: "{{ waagent }}"
+  tags:
+    - setup
+
+- name: unmount device
+  mount: 
+    path: /mnt
+    state: unmounted
+  tags:
+    - setup
+
+- name: restart agent
+  service:
+    name: waagent
+    state: restarted
+  tags:
+    - setup

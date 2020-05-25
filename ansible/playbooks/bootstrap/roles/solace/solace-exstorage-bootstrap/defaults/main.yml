@@ -1,0 +1,7 @@
+---
+# defaults file for solace-exstorage-bootstrap
+solace_os_user: solace
+solace_os_user_id: 4000
+solace_mount_dev: /dev/xvdb
+solace_storage_part: /dev/xvdb1
+solace_mount_path: /vmr

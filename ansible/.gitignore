@@ -1,0 +1,11 @@
+# don't want ips to be stored
+*.inventory
+
+# Do not upload generated JSON SEMP files
+./playbooks/bootstrap/semp_body/*.json
+
+# Do not upload Solace Doker images to the Repo
+*docker.tar.gz
+
+#Mac files
+.DS_Store

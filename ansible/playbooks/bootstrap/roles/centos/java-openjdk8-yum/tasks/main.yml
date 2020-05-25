@@ -1,0 +1,6 @@
+---
+# tasks file for java-openjdk8-yum
+- name: install openjdk
+  yum:
+    name: "java-1.8.0-openjdk"
+    update_cache: true

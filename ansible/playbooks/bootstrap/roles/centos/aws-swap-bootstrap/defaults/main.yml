@@ -1,0 +1,5 @@
+---
+# defaults file for aws-swap-bootstrap
+swap_file_path: /swapfile
+swap_file_size: 4096
+swappiness: "1"

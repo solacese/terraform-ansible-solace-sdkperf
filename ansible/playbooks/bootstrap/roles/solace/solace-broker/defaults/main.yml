@@ -1,0 +1,20 @@
+---
+# defaults file for solace-broker-ent-eval
+solace_image_name: solace/solace-pubsub-standard
+solace_edition: standard
+node_role: single
+solace_version: 9.4.0.78
+solace_storage_rootpath: /vmr
+username_admin: admin
+username_admin_password: admin
+system_scaling_maxconnectioncount: 1000
+time_zone: America/Mexico_City
+container_name: PubSubNode
+shm_size: 2g
+user: "4000"
+ulimit_core: -1
+ulimit_memlock: -1
+ulimit_nofile_soft: 2448
+ulimit_nofile_hard: 10192
+file_owner: root
+file_mode: "0777"

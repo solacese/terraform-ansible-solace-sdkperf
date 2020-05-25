@@ -1,0 +1,18 @@
+---
+- name: Change Broker Max Spool Usage
+  uri:
+   url: "http://{{ semp_mngmt_host }}:8080/SEMP"
+   method: POST
+   user: "{{ semp_admin_user}}"
+   password: "{{ semp_admin_password }}"
+   headers:
+    Content-Type: "text/xml"
+   body: "<rpc><hardware><message-spool><max-spool-usage><size>{{max_spool_usage}}</size></max-spool-usage></message-spool></hardware></rpc>"
+   body_format: raw
+   force_basic_auth: yes
+   status_code: "200"
+   return_content: yes
+  register: result
+  retries: 3
+  delay: 1
+  

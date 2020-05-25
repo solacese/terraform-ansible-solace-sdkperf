@@ -1,0 +1,6 @@
+---
+# defaults file for solace-broker-ent-eval
+semp_mngmt_host: "{{ inventory_hostname }}"
+semp_admin_user: admin
+semp_admin_password: admin
+max_spool_usage: 60000

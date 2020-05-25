@@ -1,0 +1,4 @@
+---
+# defaults file for sdkperf-mqtt
+file_owner: root
+file_mode: "0777"

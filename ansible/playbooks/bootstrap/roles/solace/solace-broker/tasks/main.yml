@@ -1,0 +1,54 @@
+---
+# tasks file for solace-broker-ent-eval
+- name: Ensure docker-compose is installed and available
+  get_url: 
+    url : https://github.com/docker/compose/releases/download/1.25.4/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+    dest: /usr/local/bin/docker-compose
+    mode: 'u=rwx,g=rx,o=rx'
+
+- name: Parse & copy docker-compose template to Standalone broker node
+  template:
+    src: PubSub_{{ node_role }}Node_template.yml
+    dest: ./PubSub_{{ node_role }}Node.yml
+    owner: "{{ file_owner }}"
+    mode: "{{ file_mode }}"
+  when: node_role == "single"
+
+- name: Parse & copy docker-compose template to Primary broker node
+  template:
+    src: PubSub_messagingNode_template.yml
+    dest: ./PubSub_{{ node_role }}Node.yml
+    owner: "{{ file_owner }}"
+    mode: "{{ file_mode }}"
+  when: node_role == "primary"
+
+- name: Parse & copy docker-compose template to Bakcup broker node
+  template:
+    src: PubSub_messagingNode_template.yml
+    dest: ./PubSub_{{ node_role }}Node.yml
+    owner: "{{ file_owner }}"
+    mode: "{{ file_mode }}"
+  when: node_role == "backup"
+
+- name: Parse & copy docker-compose template to Monitor broker node
+  template:
+    src: PubSub_{{ node_role }}Node_template.yml
+    dest: ./PubSub_{{ node_role }}Node.yml
+    owner: "{{ file_owner }}"
+    mode: "{{ file_mode }}"
+  when: node_role == "monitor"
+
+- name: Copy {{ solace_image_name }}-{{ solace_version }}-docker.tar.gz to broker nodes
+  copy:
+    src: "{{ solace_image_name }}-{{ solace_version }}-docker.tar.gz"
+    dest: ./
+    owner: "{{ file_owner }}"
+    mode: "{{ file_mode }}"
+  when: solace_edition != "standard"
+
+- name: Load Solace Docker Image
+  command: docker load -i ./{{ solace_image_name }}-{{ solace_version }}-docker.tar.gz
+  when: solace_edition != "standard"
+
+- name: Start 'er up
+  command: /usr/local/bin/docker-compose -f ./PubSub_{{ node_role }}Node.yml up -d

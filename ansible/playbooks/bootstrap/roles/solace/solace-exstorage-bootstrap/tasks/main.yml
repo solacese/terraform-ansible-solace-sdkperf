@@ -1,0 +1,55 @@
+---
+# tasks file for solace-exstorage-bootstrap
+- name: Add the "solace" user with a specific uid
+  user:
+    name: "{{ solace_os_user }}"
+    comment: Solace User
+    uid: "{{ solace_os_user_id }}"
+- name: Create a new primary partition for the attached volume
+  parted:
+    device: "{{ solace_mount_dev }}"
+    number: 1
+    state: present
+- name: Create a xfs filesystem on the newly created partition and check disk blocks
+  filesystem:
+    fstype: xfs
+    dev: "{{ solace_storage_part }}"
+    opts: "-m crc=0"
+- name: Mount the new filesystem
+  mount:
+    path: "{{ solace_mount_path }}"
+    src: "{{ solace_storage_part }}"
+    fstype: xfs
+#    opts: defaults
+    opts: nobarrier    
+    state: mounted
+- name: Create "spool" directory
+  file:
+    path: "{{ solace_mount_path }}/spool"
+    state: directory
+    owner: solace
+- name: Create "softAdb" directory
+  file:
+    path: "{{ solace_mount_path }}/spool/softAdb"
+    state: directory
+    owner: solace
+- name: Create "jail" directory
+  file:
+    path: "{{ solace_mount_path }}/jail"
+    state: directory
+    owner: solace
+- name: Create "diagnostics" directory
+  file:
+    path: "{{ solace_mount_path }}/diagnostics"
+    state: directory
+    owner: solace
+- name: Create "adbBackup" directory
+  file:
+    path: "{{ solace_mount_path }}/adbBackup"
+    state: directory
+    owner: solace
+- name: Create "var" directory
+  file:
+    path: "{{ solace_mount_path }}/var"
+    state: directory
+    owner: solace

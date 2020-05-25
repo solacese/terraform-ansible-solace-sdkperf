@@ -1,0 +1,112 @@
+---
+- hosts: all
+  remote_user: centos # login as user centos
+  become: true # Run as Root
+  pre_tasks:
+  - include_vars: vars/common-sol-brokers-vars.yml  # Load common variables for the Ansible Tasks and Roles from this file  
+  - include_vars: vars/az-sa-testvpn-sol-brokers-vars.yml  # Load common variables for the Ansible Tasks and Roles from this file  
+  - include_vars: vars/az-sa-sol-brokers-vars.yml      # Load Azure variables for the Ansible Tasks and Roles from this file
+  tasks:
+#####################################################
+# Enable SWAP on the broker
+#####################################################
+    - include_role: 
+        name: centos/az-swap-bootstrap
+#####################################################
+# Format, Partition External Disk, and prepare for Broker Usage
+#####################################################
+    - include_role: 
+        name: solace/solace-exstorage-bootstrap
+#####################################################
+# Install Docker CE
+#####################################################
+    - include_role: 
+        name: centos/suzuki-shunsuke.docker_ce_centos
+#####################################################
+# Create the Solace PubSub Docker compose file, Copy the Solace Image (if needed), Load and Run it
+#####################################################
+    - include_role: 
+        name: solace/solace-broker
+      vars:
+        container_name: PubSubSingleNode
+        node_role: single
+        solace_image_name: solace/solace-pubsub-standard
+#        solace_image_name: solace-pubsub-evaluation
+#        solace_edition: ent-eval
+#####################################################
+# Install performance monitoring tools HTOP, sysstat (iostat)
+#####################################################
+    - include_role: 
+        name: centos/os-bootstrap
+#####################################################
+# Ensure that SEMP is ready before sending any SEMP request to the broker
+#####################################################
+    - name: Wait for SEMP to be ready
+      wait_for:
+        port: 8080 # default SEMP port
+        host: "{{ inventory_hostname }}" # Current host on the Ansible inventory
+        connect_timeout: 5
+        delay: 10
+        timeout: 300
+#####################################################
+# Increase  the Broker Max-Spool Usage
+#####################################################
+    - include_role:
+        name: solace/semp/update-broker-spoolsize
+#####################################################
+# Create a VPN for Testing
+#####################################################
+    - include_role:
+        name: solace/semp/create-msg-vpn
+#####################################################
+# Create a Loop that creates all client Profiles defined on the Variables File
+#####################################################
+    - name: Create Client Profiles
+      block:
+      - name: Create all defined profiles on Variables File
+        with_items: "{{ client_profiles }}"
+        include_role:
+          name: solace/semp/create-client-profile
+        vars:
+          cp: "{{ item }}"
+#####################################################
+# Create a Loop that creates all the Client Usernames defined on the Variables File
+#####################################################
+    - name: Create Client Usernames
+      block:
+      - name: Create Client Usernames
+        with_items: "{{ client_usernames }}"
+        include_role:
+          name: solace/semp/create-client-username
+        vars:
+          cu: "{{ item }}"
+#####################################################
+# Create a Loop that creates all the queues defined on the Variables File
+#####################################################
+    - name: Create Queues
+      block:
+      - name: Create all defined queues on Variables File
+        with_items: "{{ queues }}"
+        include_role:
+          name: solace/semp/create-queue
+        vars:
+          q: "{{ queue }}"
+        loop_control:
+          loop_var: queue
+#####################################################
+# Create a Loop that creates queue subscription to the topic for each one of the queues defined on the Variables File
+#####################################################
+    - name: Update Queues
+      block:
+      - name: Create all defined queues on Variables File
+        with_subelements:
+        - "{{ queues | selectattr('subscription_topics', 'defined') | list }}" 
+        - "subscription_topics"
+        include_role:
+          name: solace/semp/create-queue-subscription
+        vars:
+          q: "{{ item.0.queueName }}"
+          subscriptionTopic: "{{ item.1 }}"
+
+
+

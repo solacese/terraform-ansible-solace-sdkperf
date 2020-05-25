@@ -1,0 +1,24 @@
+---
+- name: Compose SEMPv2 request payload for Create Message VPN "{{ vpn.vpn_name }}"
+  become: false #Run as the current user, no need to run as root...
+  run_once: true # just run once for all the brokers
+  delegate_to: 127.0.0.1 #create the parsed filed locally on the ansible controller
+  template:
+    src: create-msg-vpn.json.j2
+    dest: ./semp_body/{{ cloud_provider }}_create-msg-vpn.json
+- name: Create Message VPN "{{ vpn.vpn_name }}"
+  uri:
+   url: "http://{{ semp_mngmt_host }}:8080/SEMP/v2/config/msgVpns"
+   method: POST
+   user: "{{ semp_admin_user}}"
+   password: "{{ semp_admin_password }}"
+   headers:
+    Content-Type: "application/json"
+   body: '{{ lookup("file","./semp_body/{{ cloud_provider }}_create-msg-vpn.json") }}'
+   body_format: json
+   force_basic_auth: yes
+   status_code: "200"
+   return_content: yes
+  register: result
+  retries: 3
+  delay: 1

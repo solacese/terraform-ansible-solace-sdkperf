@@ -1,0 +1,18 @@
+---
+- hosts: all
+  remote_user: centos
+  become: true
+  tasks:
+    - include_role: 
+        name: centos/az-swap-bootstrap
+      vars:        
+        swap_file_size: 2048
+#    - include_role: 
+#        name: centos/java-openjdk8-yum
+    - include_role: 
+        name: sdkperf/sdkperf-c-x64
+#        name: sdkperf/sdkperf-java
+      vars:        
+        file_owner: centos
+        file_mode: "0666"
+

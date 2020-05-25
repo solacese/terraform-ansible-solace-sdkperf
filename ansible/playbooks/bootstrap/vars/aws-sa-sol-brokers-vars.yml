@@ -1,0 +1,16 @@
+#####################################################
+# Variable for identifying the Cloud Provider
+#####################################################
+cloud_provider: aws-sa
+node_type: standalone
+
+#####################################################
+# config variables for the Ansible Rol - solace/solace-exstorage-bootstrap
+#####################################################
+# AWS M5 Instances
+solace_mount_dev: /dev/nvme1n1 
+solace_storage_part: /dev/nvme1n1p1
+solace_mount_path: /var/opt/vmr
+# AWS T2 Instances
+#        solace_mount_dev: /dev/xvdc 
+#        solace_storage_part: /dev/xvdc1 

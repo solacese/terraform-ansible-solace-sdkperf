@@ -1,0 +1,7 @@
+---
+- hosts: all
+  remote_user: centos
+  tasks:
+    - name: kill every PID in sight
+      become: true
+      command: pkill -f sdkperf

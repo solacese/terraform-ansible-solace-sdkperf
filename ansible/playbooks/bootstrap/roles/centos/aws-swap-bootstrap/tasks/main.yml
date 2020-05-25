@@ -1,0 +1,63 @@
+---
+# tasks file for aws-swap-bootstrap
+- name: Set swap_file variable
+  set_fact:
+    swap_file: "{{swap_file_path}}"
+  tags:
+    - swap.set.file.path
+
+- name: Check if swap file exists
+  stat:
+    path: "{{swap_file}}"
+  register: swap_file_check
+  tags:
+    - swap.file.check
+
+- name: Create swap file
+#  command: fallocate -l {{swap_file_size}} {{swap_file}}
+  command: dd if=/dev/zero of={{swap_file}} count={{swap_file_size}} bs=1MiB
+  when: not swap_file_check.stat.exists
+  tags:
+    - swap.file.create
+
+- name: Change swap file permissions
+  file: path="{{swap_file}}"
+        owner=root
+        group=root
+        mode=0600
+  tags:
+    - swap.file.permissions
+
+- name: Format swap file
+  become: yes
+  command: "mkswap {{swap_file}}"
+  when: not swap_file_check.stat.exists
+  tags:
+    - swap.file.mkswap
+
+- name: Write swap entry in fstab
+  mount: name=none
+         src={{swap_file}}
+         fstype=swap
+         opts=sw
+         passno=0
+         dump=0
+         state=present
+  tags:
+    - swap.fstab
+
+- name: Turn on swap
+  become: yes
+#  command: swapon -a
+  command: "swapon {{ swap_file }}"
+  when: not swap_file_check.stat.exists
+  tags:
+    - swap.turn.on
+
+- name: Set swappiness
+  become: yes
+  sysctl:
+    name: vm.swappiness
+    value: "{{swappiness}}"
+  tags:
+    - swap.set.swappiness

@@ -1,0 +1,11 @@
+---
+# tasks file for sdkperf-mqtt
+- name: Copy sdkperf to worker nodes
+  copy:
+    src: sdkperf-mqtt-8.4.1.8
+    dest: .
+    owner: "{{ file_owner }}"
+    mode: "{{ file_mode }}"
+- name: Give sdkperf execute permissions
+  become: true
+  command: chmod -R +x sdkperf-mqtt-8.4.1.8

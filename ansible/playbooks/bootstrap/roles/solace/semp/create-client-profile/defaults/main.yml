@@ -1,0 +1,26 @@
+---
+# defaults file for create-client-profile
+cloud_provider: default
+semp_mngmt_host: "{{ inventory_hostname }}"
+semp_admin_user: admin
+semp_admin_password: admin
+vpn:
+  vpn_name: "default"
+cp:
+- clientProfileName: "defaultCP"
+  allowGuaranteedMsgSendEnabled: "false"
+  allowGuaranteedMsgReceiveEnabled: "false"
+  allowTransactedSessionsEnabled: "false"
+  maxConnectionCountPerClientUsername: 1000
+  serviceSmfMaxConnectionCountPerClientUsername: 1000
+  serviceWebMaxConnectionCountPerClientUsername: 100
+  allowBridgeConnectionsEnabled: "false"
+  allowGuaranteedEndpointCreateEnabled: "false"
+  maxEndpointCountPerClientUsername: 10000
+  maxEgressFlowCount: 10000
+  maxIngressFlowCount: 10000
+  apiQueueManagementCopyFromOnCreateName: ""
+  apiTopicEndpointManagementCopyFromOnCreateName: ""
+  maxSubscriptionCount: 10000
+  maxTransactedSessionCount: 10
+  maxTransactionCount: 10
