@@ -3,7 +3,7 @@
 solace_image_name: solace/solace-pubsub-standard
 solace_edition: standard
 node_role: single
-solace_version: 9.4.0.78
+solace_version: latest
 solace_storage_rootpath: /vmr
 username_admin: admin
 username_admin_password: admin

@@ -2,7 +2,7 @@
 *.inventory
 
 # Do not upload generated JSON SEMP files
-./playbooks/bootstrap/semp_body/*.json
+playbooks/bootstrap/semp_body/*.json
 
 # Do not upload Solace Doker images to the Repo
 *docker.tar.gz

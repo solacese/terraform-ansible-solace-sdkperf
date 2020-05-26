@@ -31,6 +31,7 @@
         container_name: PubSubSingleNode
         node_role: single
         solace_image_name: solace/solace-pubsub-standard
+        solace_version: 9.4.0.78        
 #        solace_image_name: solace-pubsub-evaluation
 #        solace_edition: ent-eval
 #####################################################
