@@ -3,7 +3,7 @@
 ## Instructions
 
 1. **Select the type of deployment you need: standalone or HA**  
-   Terraform configuration files for AWS have been separated into 2 folders, according to the infraestructure you need to create:
+   Terraform configuration files for AWS have been separated into 2 folders, according to the infrastructure you need to create:
    - [standalone brokers](./standalone)
    - [HA brokers](./HA)
    Select the one needed by getting into the respective folder.
@@ -36,7 +36,7 @@
    - Client Username
    - Queues
 
-> :information_source: Notice that this file has not been located under /ansible/playbooks/vars/, because althoug most of its contents are static, there is at the end of the file a dynamic block for Terraform to create a number of Solace queues, based on the number of SDKPerf nodes created.
+> :information_source: Notice that this file has not been located under /ansible/playbooks/vars/, because although most of its contents are static, there is at the end of the file a dynamic block for Terraform to create a number of Solace queues, based on the number of SDKPerf nodes created.
 > :warning: Make sure the changes are aligned with the resources to be created by Terraform as well as the configurations to be applied by Ansible at bootstrap.
 
 

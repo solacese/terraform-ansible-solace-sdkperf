@@ -8,18 +8,18 @@ Using the inventory, vars & playbooks either already contained in this folder or
 
 There are 2 subdirectories in this repository:
 
-### [inventory](/inventory) 
+### [inventory](./inventory) 
 
 This path will be used to store the Ansible Inventory files created by Terraform.
 
 
-### [playbooks](/playbooks) 
+### [playbooks](./playbooks) 
 
 This path already contains Ansible playbooks & variable files, but some other required files will get created by Terraform.
 
 There are 2 folders inside playbooks: 
-- [sdkperf](/sdkperf) - Here are contained the static playbooks for running the sdkperf commands (ex: stop-sdkperf.yml), and This is also the folder where terraform will generate the Dynamic SDKPerf playbooks 
-- [bootstrap](/bootstrap) - This folder contains the playbooks, variables & roles required for configuring the SDKPerf & Solace Brokers nodes
+- [sdkperf](./playbooks/sdkperf) - Here are contained the static playbooks for running the sdkperf commands (ex: stop-sdkperf.yml), and This is also the folder where terraform will generate the Dynamic SDKPerf playbooks 
+- [bootstrap](./playbooks/bootstrap) - This folder contains the playbooks, variables & roles required for configuring the SDKPerf & Solace Brokers nodes
 
 > :warning: When using a Solace Broker version either Enterprise or Enterprise Eval, the Docker image must be downloaded and placed on the path "\ansible\playbooks\bootstrap\roles\solace\solace-broker\files" before running Terraform apply.
 
@@ -56,4 +56,4 @@ If you want to modify any of the values of the SDKPerf ansibile playbook sample 
 
 Inside the /terraform/templates/playbooks/ folder
 
-> :warning: If you create copies of the files, make sure to include a Terraform "local_file" resource, to read the new template, parse it and generate the appropiate .yml file on the ansible path
+> :warning: If you create copies of the files, make sure to include a Terraform "local_file" resource, to read the new template, parse it and generate the appropriate .yml file on the ansible path

@@ -12,15 +12,15 @@ This Repo is based on the [Benchmark Testing](https://github.com/andrew-j-robert
 
 ## Scripts Highlights 
 
-**Depending on the selected Terraform scripts, they will allow you to:**:
+**Depending on the selected Terraform scripts, they will allow you to**:
 
-- Provision N number of Solace PS+ Software Standalone event broker nodes
-- Provision N number of Solace PS+ Software HA Clusters (AWS Only, Azure support under development)
-- Provision N number of SDKPerf nodes
-- Configure SDKPerf commands
-- Execute your configured SDKPerf command on all your SDKPerf nodes
-- Kill the SDKPerf processes on all your SDKPerf nodes
-- Cleanup all the resources used in your test
++ Provision N number of Solace PS+ Software Standalone event broker nodes
++ Provision N number of Solace PS+ Software HA Clusters (AWS Only, Azure support under development)
++ Provision N number of SDKPerf nodes
++ Configure SDKPerf commands
++ Execute your configured SDKPerf command on all your SDKPerf nodes
++ Kill the SDKPerf processes on all your SDKPerf nodes
++ Cleanup all the resources used in your test
 
 > :information_source: On the Azure AWS & Azure Cloud
 > :information_source: SDKPerf is a tool for validating performance, checking configuration, and exploring features associated with your Solace PubSub+ event broker. You can download it [here](https://solace.com/downloads/#other-software), or read our documentation on it [here](https://docs.solace.com/SDKPerf/SDKPerf.htm#contentBody).
@@ -48,7 +48,7 @@ This Repo is based on the [Benchmark Testing](https://github.com/andrew-j-robert
 + Ansible "Variables" (xx-xx-testvpn-sol-brokers-vars.yml) file containing Solace Configurations to be created on the Solace Broker, The Number of Queues will get created dynamically based on the number of SDKPerf Nodes
 + Resource Tags:  Name, Owner, Purpose & Days (When applicable)
 
-**List of Tasks to be applied by Ansible at bootstrap**:
+**List of Tasks to be executed by Ansible at bootstrap**:
 
 On SDKPerf nodes:
 
@@ -122,15 +122,15 @@ Azure
 There are 3 main subdirectories in this repository: 
 - [keys](/keys) - Can be used to store the private & public keys to access via SSH the SDKPerf & Solace Broker Nodes
 - [terraform](/terraform) - Contains Terraform configuration & template files to create resources on the cloud as well as files to be used by Ansible (Inventories, Playbooks, Variables)
-- [ansible](/ansible) - Contains playbooks, inventories, variables & roles to be used by Ansible to configure the VMs. There are static files that can be modified according to what is needed, as well as files that will get dinamycally created by Terraform upon execution, based on the resources terraform creates (ex: number of nodes, public or private IPs, etc.).
+- [ansible](/ansible) - Contains playbooks, inventories, variables & roles to be used by Ansible to configure the VMs. There are static files that can be modified according to what is needed, as well as files that will get dynamically created by Terraform upon execution, based on the resources terraform creates (ex: number of nodes, public or private IPs, etc.).
 
 Also, inside of each of those subdirectories, there are README files that can provide extra information as well as describing what CAN or HAS TO be configured on each section.
 
-> :warning: The SSH keys to be used should have restictive permissions (ex: 600), otherwise Terraform and Ansible could trigger an error while connecting to the VMs
+> :warning: The SSH keys to be used should have restrictive permissions (ex: 600), otherwise Terraform and Ansible could trigger an error while connecting to the VMs
 
 ## Creating Resources
 
-Once all the variables and configurations have been set according to our needs, we can have Terraform create all the infrastructure for us, by going into the appropiate PATH where the Terraform resource files are located (ex: [/terraform/aws/HA](/terraform/aws/HA) and typing the following commands:
+Once all the variables and configurations have been set according to our needs, we can have Terraform create all the infrastructure for us, by going into the appropriate PATH where the Terraform resource files are located (ex: [/terraform/aws/HA](/terraform/aws/HA)) and typing the following commands:
 
    ```   
      terraform init
@@ -145,7 +145,7 @@ Read the [/ansible/README.md](/ansible/README.md) file
 
 ## Destroying the resources
 
-Once the testing has concluded and the cloud resources are no longer needed, we can destroy all of them by simply going into the appropiate PATH where the Terraform resource files are located (ex: [/terraform/aws/HA](/terraform/aws/HA) and running the Terraform command: 
+Once the testing has concluded and the cloud resources are no longer needed, we can destroy all of them by simply going into the appropriate PATH where the Terraform resource files are located (ex: [/terraform/aws/HA](/terraform/aws/HA)) and running the Terraform command: 
 
    ```   
      terraform destroy
